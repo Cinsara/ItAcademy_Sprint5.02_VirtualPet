@@ -1,0 +1,87 @@
+- Model:
+    - PET
+        - ID
+        - NAME
+        - WEIGHT
+        - EXP
+        - STRENGTH
+        - HEALTH
+        - HAPPINESS
+        - HUNGER
+        - VICTORIES
+        - DEFEATS
+
+    - USER
+        - ID
+        - NAME
+        - EMAIL
+        - PASSWORD
+        - PET
+        - TRAINING TIME
+
+    - GAME
+        - ID
+        - OPPONENT PET
+        - CHALLENGER PET
+        - RESULT
+        - COINS AWARDED (For buying food for your pet or accessories)
+
+    - SHOP
+        - ID
+        - LIST<FOODS>
+        - LIST<ACCESSORIES>
+
+        public Store() {
+                foods.add(Food.builder().name("Apple").healthChange(10).happinessChange(5).hungerChange(-10).price(5).description("A healthy fruit").build());
+                foods.add(Food.builder().name("Pizza").healthChange(-10).happinessChange(20).hungerChange(-15).price(10).description("A tasty unhealthy food").build());
+                // Añadir el resto de alimentos
+            }
+
+            public List<Food> getAvailableFoods() {
+                return foods;
+            }
+
+            // Puedes también acceder por nombre si lo prefieres
+            public Food getFoodByName(String name) {
+                return foods.stream()
+                            .filter(food -> food.getName().equals(name))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Food not found"));
+            }
+        }
+
+    @Data
+    @Builder
+    - FOOD
+        - ID
+        - NAME
+        - private int healthChange, happinessChange, hungerChange;
+        - int price;
+        - DESCRIPTION
+
+
+
+        //HEALTHY FOODS (healthy, happiness, hunger)
+        - APPLE(10,5, -10)
+        - SALAD(20,10,-15)
+        - CHICKEN(25,15,-20)
+        - PIZZA(-10,20,-15)
+        - ICE_CREAM(-15,25,-10)
+        - CHIPS(-25,10,-5)
+
+
+    - CARACTERÍSTICAS QUE NECESITA LA APLICACIÓN
+
+        - CRONÓMETRO
+            Según el tiempo de ejercicio y el ejercicio, la mascota subirá x experiencia, tendrá hambre, aumentará la salud... o la bajará
+            si se tirá demasiado entrenando, lo mismo la felicidad. También en función de las calorias quemadas, bajar el peso de la mascota.
+        - Hacer ESTADÍSTICAS de cuánto tiempo ha entrenado en la semana y en función de eso calcular las calorías quemadas.
+        - Por entrenamiento calcular las CALORÍAS quemadas.
+        - Hacer ENFRENTAMIENTOS 1v1 entre mascotas teniendo en cuenta su fuerza.
+        - Implementar una TIENDA con monedas ganadas en enfrentamientos y entrenamientos.
+        - La mascota está enlazada contigo, por lo que tendrá tu mismo peso. Al registrarte, pedirá al usuario su nombre, email, password y peso.
+        La nuevo mascota cogerá el peso del usuario.
+        - Cada usuario solo tendrá una mascota.
+        - Como serán similares, tal vez sería buena idea añadir personalización con accesorios, como la mascota POU.
+        - Hacer un ranking semanal sobre qué mascota ha entrenado más y ha ganado más batallas. A los tres primeros se les dará monedas de forma automática cuando
+        acabe la semana.
