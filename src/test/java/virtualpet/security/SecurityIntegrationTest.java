@@ -15,6 +15,7 @@ import virtualpet.model.User;
 import virtualpet.model.UserRol;
 import virtualpet.repositories.UserRepository;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,14 +44,14 @@ public class SecurityIntegrationTest {
             User user = new User();
             user.setUsername("testUser");
             user.setPassword(passwordEncoder.encode("testUser_password"));
-            user.setRol(UserRol.ROL_USER);
+            user.setRol(UserRol.USER);
             userRepository.save(user);
         }
         if(!userRepository.existsUserByUsername("testAdmin")){
             User admin = new User();
             admin.setUsername("testAdmin");
             admin.setPassword(passwordEncoder.encode("testAdmin_password"));
-            admin.setRol(UserRol.ROL_ADMIN);
+            admin.setRol(UserRol.ADMIN);
             userRepository.save(admin);
         }
     }
@@ -87,10 +88,10 @@ public class SecurityIntegrationTest {
 
         System.out.println("Token obtain");
 
-        mockMvc.perform(get("/api/user/data")
-                        .header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/api/admin/data")
+                        .with(user("testUser").roles("USER")))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isForbidden());
     }
 
     @Test

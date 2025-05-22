@@ -11,6 +11,6 @@ public class UserController {
 
     @GetMapping("/data")
     public ResponseEntity<String> getUserData() {
-        return ResponseEntity.ok("Datos de usuario");
+        return ResponseEntity.ok("User data");
     }
 }
