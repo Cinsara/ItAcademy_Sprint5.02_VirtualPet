@@ -37,7 +37,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Configuración CORS como bean separado para reutilización
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
