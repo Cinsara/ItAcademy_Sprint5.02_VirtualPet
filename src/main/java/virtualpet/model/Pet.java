@@ -19,7 +19,7 @@ public class Pet {
     private double weight;
     private int strength = 10;
     private int happiness = 50;
-    private int healthy = 90;
+    private int health = 90;
     private int hunger = 0;
     private int exp = 0;
     private int victories;
