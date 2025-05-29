@@ -21,4 +21,7 @@ public class Food {
     private double weightChange;
     private int price;
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private FoodType type;
 }

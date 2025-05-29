@@ -1,13 +1,18 @@
 package virtualpet.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import virtualpet.dto.LoginRequest;
 import virtualpet.dto.RegisterRequest;
+import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.model.UserRol;
 import virtualpet.repositories.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -42,5 +47,14 @@ public class UserService {
             throw new RuntimeException("Incorrect password");
         }
         return user;
+    }
+
+    public List<User> allUsers(){
+        return userRepository.findAll();
+    }
+
+    public User userFound(UserDetails userDetails){
+        return userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

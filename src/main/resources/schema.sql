@@ -43,9 +43,10 @@ CREATE TABLE app_food(
     healthChange INT NOT NULL,
     happinessChange INT NOT NULL,
     hungerChange INT NOT NULL,
-    weightChange INT NOT NULL,
+    weightChange DOUBLE NOT NULL,
     price INT NOT NULL,
     description VARCHAR(500) NOT NULL,
+    food_type ENUM('JUNK', 'HEALTHY') NOT NULL,
     app_shop_id INT,
     CONSTRAINT fk_food_app_shop FOREIGN KEY (app_shop_id) REFERENCES app_shop(id)
 );
