@@ -25,16 +25,19 @@ public class PetService {
     private final AccessoryRepository accessoryRepository;
     private final UserService userService;
 
-    public Pet createPet(PetRequest petRequest){
+    public Pet createPet(PetRequest petRequest, UserDetails userDetails){
+        User owner = userService.userFound(userDetails);
         Pet pet = new Pet();
         pet.setName(petRequest.getPetName());
+        pet.setOwner(owner);
+        pet.setWeight(owner.getWeight());
         return petRepository.save(pet);
     }
 
-    public Pet showMyPet(UserDetails userDetails){
-        String username = userDetails.getUsername();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+    public Pet showMyPet(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return petRepository.findByOwner(user)
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
     }

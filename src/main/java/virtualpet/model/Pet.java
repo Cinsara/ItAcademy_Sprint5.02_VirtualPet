@@ -26,6 +26,6 @@ public class Pet {
     private int defeats;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User owner;
 }

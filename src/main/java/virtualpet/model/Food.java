@@ -1,12 +1,16 @@
 package virtualpet.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "app_food")
 public class Food {
     @Id
@@ -23,5 +27,6 @@ public class Food {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private FoodType type;
 }

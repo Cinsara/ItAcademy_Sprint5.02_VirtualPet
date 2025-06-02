@@ -25,7 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRol rol;
 
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "owner",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Pet pet;
 
     private double trainingTime;

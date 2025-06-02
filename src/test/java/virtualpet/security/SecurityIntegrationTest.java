@@ -39,17 +39,20 @@ public class SecurityIntegrationTest {
     }
 
     @BeforeAll
-    void setUp(){
-        if(!userRepository.existsUserByUsername("testUser")){
+    void setUp() {
+        if (!userRepository.existsByEmail("testUser@example.com")) {
             User user = new User();
             user.setUsername("testUser");
+            user.setEmail("testUser@example.com");
             user.setPassword(passwordEncoder.encode("testUser_password"));
             user.setRol(UserRol.USER);
             userRepository.save(user);
         }
-        if(!userRepository.existsUserByUsername("testAdmin")){
+
+        if (!userRepository.existsByEmail("testAdmin@example.com")) {
             User admin = new User();
             admin.setUsername("testAdmin");
+            admin.setEmail("testAdmin@example.com");
             admin.setPassword(passwordEncoder.encode("testAdmin_password"));
             admin.setRol(UserRol.ADMIN);
             userRepository.save(admin);

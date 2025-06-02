@@ -44,7 +44,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("Authorization")); // Importante para JWT
+        configuration.setExposedHeaders(List.of("authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -58,16 +58,23 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
+                                "/auth/**",
+                                "/api/admin/**",
+                                "/api/user/**",
                                 "/register.html",
                                 "/login.html",
                                 "/login",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/pet/**",
+                                "/game/**"
                         ).permitAll()
-                        .requestMatchers("api/admin/**","/data").hasRole("ADMIN")
+                        .requestMatchers("/admin/**","/data").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/pet/giveAccessory", "/pet/feed", "/pet/myPet",
+                                "/pet/deletePet").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/pet/allPets").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->
@@ -80,6 +87,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 }

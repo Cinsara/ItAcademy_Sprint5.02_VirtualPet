@@ -3,19 +3,26 @@ package virtualpet.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import virtualpet.model.Accessory;
 import virtualpet.model.Food;
 import virtualpet.model.FoodType;
+import virtualpet.repositories.AccessoryRepository;
 import virtualpet.repositories.FoodRepository;
 
 @Component
 @RequiredArgsConstructor
 public class DataInitializer {
     private final FoodRepository foodRepository;
+    private final AccessoryRepository accessoryRepository;
 
     @PostConstruct
     public void init() {
+        initFood();
+        initAccessories();
+    }
+
+    private void initFood() {
         if (foodRepository.count() == 0) {
-            // HEALTHY FOODS
             foodRepository.save(Food.builder()
                     .name("Apple")
                     .type(FoodType.HEALTHY)
@@ -38,7 +45,6 @@ public class DataInitializer {
                     .description("Light green salad")
                     .build());
 
-            // JUNK FOODS
             foodRepository.save(Food.builder()
                     .name("Burger")
                     .type(FoodType.JUNK)
@@ -59,6 +65,31 @@ public class DataInitializer {
                     .weightChange(0.3)
                     .price(4)
                     .description("Sweet donut")
+                    .build());
+        }
+    }
+
+    private void initAccessories() {
+        if (accessoryRepository.count() == 0) {
+            accessoryRepository.save(Accessory.builder()
+                    .name("Hat")
+                    .happinessChange(10)
+                    .price(7)
+                    .description("A cute little hat")
+                    .build());
+
+            accessoryRepository.save(Accessory.builder()
+                    .name("Teddy Bear")
+                    .happinessChange(15)
+                    .price(10)
+                    .description("A soft and cuddly teddy bear")
+                    .build());
+
+            accessoryRepository.save(Accessory.builder()
+                    .name("Glasses")
+                    .happinessChange(20)
+                    .price(5)
+                    .description("Some super cool glasses")
                     .build());
         }
     }

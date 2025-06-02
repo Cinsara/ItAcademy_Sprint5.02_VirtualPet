@@ -32,7 +32,7 @@ CREATE TABLE app_pet(
     exp INT DEFAULT 0,
     victories INT DEFAULT 0,
     defeats INT DEFAULT 0,
-    user_id INT,
+    user_id INT UNIQUE,
     CONSTRAINT fk_pet_user FOREIGN KEY (user_id) REFERENCES app_user(id)
 );
 
@@ -40,11 +40,11 @@ CREATE TABLE app_food(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     calories DOUBLE,
-    healthChange INT NOT NULL,
-    happinessChange INT NOT NULL,
-    hungerChange INT NOT NULL,
-    weightChange DOUBLE NOT NULL,
-    price INT NOT NULL,
+    healthChange INT NOT NULL DEFAULT 0,
+    happinessChange INT NOT NULL DEFAULT 0,
+    hungerChange INT NOT NULL DEFAULT 0,
+    weightChange DOUBLE NOT NULL DEFAULT 0,
+    price INT NOT NULL DEFAULT 0,
     description VARCHAR(500) NOT NULL,
     food_type ENUM('JUNK', 'HEALTHY') NOT NULL,
     app_shop_id INT,
@@ -54,8 +54,8 @@ CREATE TABLE app_food(
 CREATE TABLE app_accessory(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    happinessChange INT NOT NULL,
-    price INT NOT NULL,
+    happinessChange INT NOT NULL DEFAULT 0,
+    price INT NOT NULL DEFAULT 0,
     description VARCHAR(500) NOT NULL,
     app_shop_id INT,
     CONSTRAINT fk_accessory_app_shop FOREIGN KEY (app_shop_id) REFERENCES app_shop(id)

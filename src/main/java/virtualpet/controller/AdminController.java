@@ -11,7 +11,7 @@ import virtualpet.model.UserRol;
 import virtualpet.services.UserService;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
 

@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import virtualpet.dto.AccessoryRequest;
-import virtualpet.dto.FeedPetRequest;
-import virtualpet.dto.PetRequest;
-import virtualpet.dto.TrainPetRequest;
+import virtualpet.dto.*;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.repositories.UserRepository;
@@ -27,11 +26,30 @@ public class PetController {
     private final UserRepository userRepository;
     private final UserService userService;
 
+  /*  @PostMapping("/newPet")
+    public ResponseEntity<Pet> createPet(@RequestBody PetRequest petRequest,
+                                         @AuthenticationPrincipal UserDetails userDetails){
+        Pet savedPet = petService.createPet(petRequest, userDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
+    } */
+
     @PostMapping("/newPet")
-    public ResponseEntity<Pet> createPet(PetRequest petRequest){
-        Pet savedPet = petService.createPet(petRequest);
+    public ResponseEntity<Pet> createPet(@RequestBody PetRequest petRequest) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("🎯 Seguridad activa: " + auth);
+        System.out.println("👤 Usuario autenticado: " + auth.getPrincipal());
+
+        if (!(auth.getPrincipal() instanceof UserDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+
+        // Continúa tu lógica normal
+        Pet savedPet = petService.createPet(petRequest, userDetails);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
     }
+
 
     @GetMapping("/myPet")
     public ResponseEntity<Pet> showMyPet(@AuthenticationPrincipal UserDetails userDetails){
@@ -54,13 +72,35 @@ public class PetController {
         return ResponseEntity.ok(updatedPet);
     }
 
-    @PostMapping("/giveAccessory")
+  /*  @PostMapping("/giveAccessory")
     public ResponseEntity<Pet> giveAccessory(@AuthenticationPrincipal UserDetails userDetails,
                                              @RequestBody AccessoryRequest accessoryRequest){
         User user = userService.userFound(userDetails);
         Pet updatedPet = petService.giveAccessory(user, accessoryRequest.getAccessoryId());
         return ResponseEntity.ok(updatedPet);
+    } */
+
+    @PostMapping("/pet/giveAccessory")
+    public ResponseEntity<PetDto> giveAccessory(@RequestBody AccessoryRequest request,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.userFound(userDetails);
+        Pet updatedPet = petService.giveAccessory(user,request.getAccessoryId());
+
+        PetDto petDto = new PetDto(
+                (long) updatedPet.getId(),
+                updatedPet.getName(),
+                updatedPet.getHappiness(),
+                updatedPet.getHealth(),
+                updatedPet.getHunger(),
+                updatedPet.getStrength(),
+                updatedPet.getVictories(),
+                updatedPet.getDefeats(),
+                updatedPet.getWeight()
+        );
+
+        return ResponseEntity.ok(petDto);
     }
+
 
     @PostMapping("/trainPet")
     public ResponseEntity<Pet> trainPet(@AuthenticationPrincipal UserDetails userDetails,
