@@ -20,11 +20,9 @@ public class Shop {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shop_id")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Food> foodList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shop_id")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Accessory> accessoryList = new ArrayList<>();
 }

@@ -80,7 +80,7 @@ public class PetController {
         return ResponseEntity.ok(updatedPet);
     } */
 
-    @PostMapping("/pet/giveAccessory")
+    @PostMapping("/giveAccessory")
     public ResponseEntity<PetDto> giveAccessory(@RequestBody AccessoryRequest request,
                                                 @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.userFound(userDetails);

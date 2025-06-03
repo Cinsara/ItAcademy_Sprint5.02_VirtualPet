@@ -59,22 +59,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/**",
-                                "/api/admin/**",
-                                "/api/user/**",
                                 "/register.html",
                                 "/login.html",
                                 "/login",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/pet/**",
-                                "/game/**"
+                                "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/admin/**","/data").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
-                        .requestMatchers("/pet/giveAccessory", "/pet/feed", "/pet/myPet",
-                                "/pet/deletePet").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/pet/giveAccessory", "/pet/feed", "/pet/myPet", "/pet/deletePet").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/pet/allPets").hasRole("ADMIN")
+                        .requestMatchers("/game/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin/**", "/data").hasRole("ADMIN")
+                        .requestMatchers("/pet/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->

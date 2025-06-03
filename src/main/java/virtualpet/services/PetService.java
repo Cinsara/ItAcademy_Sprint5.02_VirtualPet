@@ -61,13 +61,20 @@ public class PetService {
     }
 
     public Pet giveAccessory(User user, int accessoryId) {
+
+        System.out.println("Entrando al servidio de giveAccessory!");
+
         Pet pet = petRepository.findByOwner(user)
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         Accessory accessory = accessoryRepository.findById((long) accessoryId)
                 .orElseThrow(() -> new RuntimeException("Accessory not found"));
 
-        pet.setHappiness(Math.min(100, pet.getHappiness() + accessory.getHappinessChange()));
+        System.out.println("He pasado la búsqueda de pet y accesory!");
+
+        pet.setHappiness(Math.min(100, Math.max(0, pet.getHappiness() + accessory.getHappinessChange())));
+
+        System.out.println("He pasado el setHappiness!");
 
         return petRepository.save(pet);
     }

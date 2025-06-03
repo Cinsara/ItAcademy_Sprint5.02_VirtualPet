@@ -1,7 +1,6 @@
 package virtualpet.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +10,9 @@ import org.springframework.stereotype.Service;
 import virtualpet.model.User;
 import virtualpet.repositories.UserRepository;
 
+
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,10 +29,17 @@ public class CustomUserDetailsService implements UserDetailsService {
                 new SimpleGrantedAuthority("ROLE_" + user.getRol().name())
         );
 
-        return new org.springframework.security.core.userdetails.User(
+       /* return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRol().name()))
+        ); */
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRol().name()))
         );
+
     }
 }

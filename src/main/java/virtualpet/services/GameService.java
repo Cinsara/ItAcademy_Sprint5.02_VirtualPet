@@ -25,6 +25,8 @@ public class GameService {
 
         GameResult result = determineBattleResult(challenger,opponent);
         int coins = getCoinsForResult(result);
+        user.setCoins(user.getCoins() + coins);
+        userRepository.save(user);
 
         updatePetStats(challenger,result);
         Game battle = createGameRecord(challenger,opponent,result,coins);
@@ -55,9 +57,9 @@ public class GameService {
 
     private int getCoinsForResult(GameResult result) {
         return switch (result) {
-            case CHALLENGER_WINS -> 50;
-            case DRAW -> 20;
-            case OPPONENT_WINS -> 10;
+            case CHALLENGER_WINS -> 10;
+            case DRAW -> 5;
+            case OPPONENT_WINS -> 0;
         };
     }
 

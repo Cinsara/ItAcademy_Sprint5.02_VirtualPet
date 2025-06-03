@@ -29,4 +29,8 @@ public class Food {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private FoodType type;
+
+    @ManyToOne
+    @JoinColumn(name = "app_shop_id")
+    private Shop shop;
 }

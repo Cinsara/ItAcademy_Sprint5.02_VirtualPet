@@ -12,6 +12,7 @@ CREATE TABLE app_user(
     password VARCHAR(255) NOT NULL,
     weight DOUBLE,
     rol VARCHAR(50),
+    coins INT DEFAULT 10,
     training_time DOUBLE,
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );

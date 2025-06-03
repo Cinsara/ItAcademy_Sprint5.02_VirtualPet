@@ -21,4 +21,9 @@ public class Accessory {
     private int happinessChange;
     private String description;
     private int price;
+
+    @ManyToOne
+    @JoinColumn(name = "app_shop_id")
+    private Shop shop;
+
 }

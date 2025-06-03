@@ -1,5 +1,6 @@
 package virtualpet.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +26,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRol rol;
 
-    @OneToOne(mappedBy = "owner",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Pet pet;
+
+    @Column(nullable = false)
+    private int coins = 10;
 
     private double trainingTime;
     private LocalDateTime registerDate;
