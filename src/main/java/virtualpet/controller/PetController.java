@@ -1,5 +1,6 @@
 package virtualpet.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,34 +11,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import virtualpet.dto.*;
+import virtualpet.dto.requests.AccessoryRequest;
+import virtualpet.dto.requests.FeedPetRequest;
+import virtualpet.dto.requests.PetRequest;
+import virtualpet.dto.requests.TrainPetRequest;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
-import virtualpet.repositories.UserRepository;
 import virtualpet.services.PetService;
 import virtualpet.services.UserService;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/pet")
 public class PetController {
     private final PetService petService;
-    private final UserRepository userRepository;
     private final UserService userService;
-
-  /*  @PostMapping("/newPet")
-    public ResponseEntity<Pet> createPet(@RequestBody PetRequest petRequest,
-                                         @AuthenticationPrincipal UserDetails userDetails){
-        Pet savedPet = petService.createPet(petRequest, userDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
-    } */
 
     @PostMapping("/newPet")
     public ResponseEntity<Pet> createPet(@RequestBody PetRequest petRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("🎯 Seguridad activa: " + auth);
-        System.out.println("👤 Usuario autenticado: " + auth.getPrincipal());
 
         if (!(auth.getPrincipal() instanceof UserDetails)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -45,7 +40,6 @@ public class PetController {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
-        // Continúa tu lógica normal
         Pet savedPet = petService.createPet(petRequest, userDetails);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
     }
@@ -71,14 +65,6 @@ public class PetController {
         Pet updatedPet = petService.feedPet(user, request.getFoodId());
         return ResponseEntity.ok(updatedPet);
     }
-
-  /*  @PostMapping("/giveAccessory")
-    public ResponseEntity<Pet> giveAccessory(@AuthenticationPrincipal UserDetails userDetails,
-                                             @RequestBody AccessoryRequest accessoryRequest){
-        User user = userService.userFound(userDetails);
-        Pet updatedPet = petService.giveAccessory(user, accessoryRequest.getAccessoryId());
-        return ResponseEntity.ok(updatedPet);
-    } */
 
     @PostMapping("/giveAccessory")
     public ResponseEntity<PetDto> giveAccessory(@RequestBody AccessoryRequest request,

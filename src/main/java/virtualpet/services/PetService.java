@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import virtualpet.dto.PetRequest;
+import virtualpet.dto.requests.PetRequest;
 import virtualpet.model.Accessory;
 import virtualpet.model.Food;
 import virtualpet.model.Pet;
@@ -61,20 +61,13 @@ public class PetService {
     }
 
     public Pet giveAccessory(User user, int accessoryId) {
-
-        System.out.println("Entrando al servidio de giveAccessory!");
-
         Pet pet = petRepository.findByOwner(user)
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         Accessory accessory = accessoryRepository.findById((long) accessoryId)
                 .orElseThrow(() -> new RuntimeException("Accessory not found"));
 
-        System.out.println("He pasado la búsqueda de pet y accesory!");
-
         pet.setHappiness(Math.min(100, Math.max(0, pet.getHappiness() + accessory.getHappinessChange())));
-
-        System.out.println("He pasado el setHappiness!");
 
         return petRepository.save(pet);
     }

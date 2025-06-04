@@ -1,10 +1,12 @@
-package virtualpet.dto;
+package virtualpet.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class JwtResponse {
+public class LoginResponse {
+    private Long id;
+    private String email;
     private String token;
 }

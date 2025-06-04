@@ -36,18 +36,12 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(key)
                 .compact();
-
-        System.out.println("🔐 Generando token para: " + userDetails.getUsername());
-        System.out.println("🪪 Token generado: " + token);
-
         return token;
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        boolean valido = username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-        System.out.println("✅ ¿Token válido?: " + valido);
-        return valido;
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {

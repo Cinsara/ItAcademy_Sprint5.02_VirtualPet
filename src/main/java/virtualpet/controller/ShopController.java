@@ -1,5 +1,6 @@
 package virtualpet.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,14 +9,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import virtualpet.dto.BuyRequestAccessory;
-import virtualpet.dto.BuyRequestFood;
+import virtualpet.dto.requests.BuyRequestAccessory;
+import virtualpet.dto.requests.BuyRequestFood;
 import virtualpet.dto.PetDto;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.services.PetService;
 import virtualpet.services.UserService;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/shop")
@@ -27,7 +29,7 @@ public class ShopController {
     public ResponseEntity<PetDto> buyFood(@RequestBody BuyRequestFood request,
                                           @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.userFound(userDetails);
-        Pet updated = petService.feedPet(user, request.getFoodId()); // usa tu método feed
+        Pet updated = petService.feedPet(user, request.getFoodId());
         return ResponseEntity.ok(new PetDto(
                 (long) updated.getId(),
                 updated.getName(),

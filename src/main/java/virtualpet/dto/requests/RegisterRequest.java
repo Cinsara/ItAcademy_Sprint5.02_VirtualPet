@@ -1,4 +1,4 @@
-package virtualpet.dto;
+package virtualpet.dto.requests;
 
 import lombok.Data;
 import virtualpet.model.UserRol;

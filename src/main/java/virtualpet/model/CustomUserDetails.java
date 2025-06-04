@@ -19,7 +19,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        System.out.println("📢 getUsername() llamado, devolviendo: " + user.getEmail());
         return user.getEmail();
     }
 

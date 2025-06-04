@@ -2,6 +2,7 @@ package virtualpet.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import virtualpet.dto.GameDto;
 import virtualpet.model.Game;
 import virtualpet.model.GameResult;
 import virtualpet.model.Pet;
@@ -19,7 +20,7 @@ public class GameService {
     private final PetRepository petRepository;
     private final UserRepository userRepository;
 
-    public Game startBattle(User user){
+    public GameDto startBattle(User user){
         Pet challenger = getChallenger(user);
         Pet opponent = getRandomOpponent(challenger);
 
@@ -32,9 +33,8 @@ public class GameService {
         Game battle = createGameRecord(challenger,opponent,result,coins);
 
         petRepository.save(challenger);
-        return gameRepository.save(battle);
+        return GameDto.from(gameRepository.save(battle));
     }
-
 
     private Pet getChallenger(User user) {
         return petRepository.findByOwner(user)

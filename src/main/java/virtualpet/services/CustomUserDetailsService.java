@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import virtualpet.model.User;
 import virtualpet.repositories.UserRepository;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -28,12 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Set<GrantedAuthority> authorities = Collections.singleton(
                 new SimpleGrantedAuthority("ROLE_" + user.getRol().name())
         );
-
-       /* return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRol().name()))
-        ); */
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

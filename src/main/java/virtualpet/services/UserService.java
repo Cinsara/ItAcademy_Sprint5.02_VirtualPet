@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import virtualpet.dto.LoginRequest;
-import virtualpet.dto.LoginResponse;
-import virtualpet.dto.RegisterRequest;
+import virtualpet.dto.requests.LoginRequest;
+import virtualpet.dto.response.LoginResponse;
+import virtualpet.dto.requests.RegisterRequest;
 import virtualpet.model.User;
 import virtualpet.repositories.UserRepository;
 
@@ -68,5 +68,4 @@ public class UserService {
         }
         return user;
     }
-
 }

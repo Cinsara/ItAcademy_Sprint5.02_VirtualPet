@@ -66,12 +66,21 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/pet/giveAccessory", "/pet/feed", "/pet/myPet", "/pet/deletePet").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/pet/allPets").hasRole("ADMIN")
-                        .requestMatchers("/game/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/admin/**", "/data").hasRole("ADMIN")
-                        .requestMatchers("/pet/**").permitAll()
+                        .requestMatchers(
+                                "/pet/giveAccessory",
+                                "/pet/feed",
+                                "/pet/myPet",
+                                "/pet/deletePet"
+                        ).hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers("/pet/allPets",
+                                "/admin/**",
+                                "/data",
+                                "/user/allUsers",
+                                "/game/gamesPlayed"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers("/pet/**","/game/**","/user/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->
