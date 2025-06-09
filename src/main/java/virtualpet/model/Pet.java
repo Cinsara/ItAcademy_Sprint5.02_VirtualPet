@@ -17,6 +17,10 @@ public class Pet {
     private int id;
 
     private String name;
+
+    @Column(nullable = false)
+    private String type;
+
     private double weight;
     private int strength = 10;
     private int happiness = 50;

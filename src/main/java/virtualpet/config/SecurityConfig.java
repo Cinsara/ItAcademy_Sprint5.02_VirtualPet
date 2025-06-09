@@ -40,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
@@ -62,10 +62,14 @@ public class SecurityConfig {
                                 "/register.html",
                                 "/login.html",
                                 "/login",
+                                "/register",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
+
+                        .requestMatchers("/pet/**","/game/**","/user/**").permitAll() //SI DA PROBLEMAS MOVER A LA LÍNEA INDICADA
+
                         .requestMatchers(
                                 "/pet/giveAccessory",
                                 "/pet/feed",
@@ -80,7 +84,8 @@ public class SecurityConfig {
                                 "/game/gamesPlayed"
                         ).hasRole("ADMIN")
 
-                        .requestMatchers("/pet/**","/game/**","/user/**").permitAll()
+                        // AQUÍ
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->

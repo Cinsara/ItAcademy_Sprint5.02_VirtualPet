@@ -14,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import virtualpet.services.CustomUserDetailsService;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +28,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
+
+        String path = request.getRequestURI();
+        List<String> excludedPaths = List.of("/api/auth/register", "/api/auth/login");
+        if (excludedPaths.contains(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

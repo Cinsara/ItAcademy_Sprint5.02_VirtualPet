@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class PetRequest {
     private String petName;
+    private String type;
 }

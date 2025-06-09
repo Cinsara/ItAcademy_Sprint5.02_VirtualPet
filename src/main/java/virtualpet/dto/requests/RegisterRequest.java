@@ -8,6 +8,5 @@ public class RegisterRequest {
     private String username;
     private String email;
     private String password;
-    private UserRol userRol;
     private double weight;
 }

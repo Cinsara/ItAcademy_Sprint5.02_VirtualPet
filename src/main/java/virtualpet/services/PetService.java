@@ -29,6 +29,7 @@ public class PetService {
         User owner = userService.userFound(userDetails);
         Pet pet = new Pet();
         pet.setName(petRequest.getPetName());
+        pet.setType(petRequest.getType());
         pet.setOwner(owner);
         pet.setWeight(owner.getWeight());
         return petRepository.save(pet);
@@ -81,6 +82,7 @@ public class PetService {
         pet.setStrength(pet.getStrength() + minutes);
         pet.setHappiness(Math.max(0, pet.getHappiness() - minutes));
         pet.setHealth(Math.max(0, pet.getHealth() - (minutes / 2)));
+        pet.setHunger(Math.min(100, pet.getHunger() + minutes));
 
         return petRepository.save(pet);
     }

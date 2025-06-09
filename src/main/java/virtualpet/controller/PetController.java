@@ -15,6 +15,7 @@ import virtualpet.dto.requests.AccessoryRequest;
 import virtualpet.dto.requests.FeedPetRequest;
 import virtualpet.dto.requests.PetRequest;
 import virtualpet.dto.requests.TrainPetRequest;
+import virtualpet.dto.response.PetResponse;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.services.PetService;
@@ -31,7 +32,7 @@ public class PetController {
     private final UserService userService;
 
     @PostMapping("/newPet")
-    public ResponseEntity<Pet> createPet(@RequestBody PetRequest petRequest) {
+    public ResponseEntity<PetResponse> createPet(@RequestBody PetRequest petRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth.getPrincipal() instanceof UserDetails)) {
@@ -41,7 +42,8 @@ public class PetController {
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
         Pet savedPet = petService.createPet(petRequest, userDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new PetResponse(savedPet.getType(), savedPet.getName()));
     }
 
 

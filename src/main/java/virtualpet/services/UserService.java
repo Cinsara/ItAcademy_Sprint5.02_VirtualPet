@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import virtualpet.dto.requests.LoginRequest;
 import virtualpet.dto.response.LoginResponse;
 import virtualpet.dto.requests.RegisterRequest;
+import virtualpet.model.Pet;
 import virtualpet.model.User;
+import virtualpet.model.UserRol;
 import virtualpet.repositories.UserRepository;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRol(request.getUserRol());
+        user.setRol(UserRol.USER);
         user.setWeight(request.getWeight());
 
         return userRepository.save(user);
@@ -47,7 +49,8 @@ public class UserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Incorrect password");
         }
-        return new LoginResponse((long) user.getId(), user.getEmail(), user.getUsername());
+        Pet pet = user.getPet();
+        return new LoginResponse((long) user.getId(), user.getEmail(), user.getUsername(),pet);
     }
 
     public List<User> allUsers(){
@@ -60,12 +63,23 @@ public class UserService {
     }
 
     public User validateUser(LoginRequest request) {
+
+        System.out.println("🔐 Intentando login con: " + request.getEmail());
+
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        System.out.println("✅ Usuario encontrado, comprobando contraseña");
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+
+            System.out.println("❌ Contraseña incorrecta");
+
             throw new BadCredentialsException("Incorrect password");
         }
+
+        System.out.println("🔓 Contraseña válida");
+
         return user;
     }
 }

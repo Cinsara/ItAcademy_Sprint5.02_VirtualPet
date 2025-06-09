@@ -25,6 +25,7 @@ CREATE TABLE app_shop(
 CREATE TABLE app_pet(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
+    type VARCHAR(255) NOT NULL;
     weight DOUBLE,
     strength INT DEFAULT 10,
     happiness INT DEFAULT 50,

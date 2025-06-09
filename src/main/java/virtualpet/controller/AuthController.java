@@ -6,14 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import virtualpet.dto.requests.LoginRequest;
 import virtualpet.dto.response.LoginResponse;
 import virtualpet.dto.requests.RegisterRequest;
 import virtualpet.model.CustomUserDetails;
+import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.services.UserService;
 import virtualpet.util.JwtUtil;
@@ -32,7 +30,10 @@ public class AuthController {
             User user = userService.validateUser(request);
             UserDetails userDetails = new CustomUserDetails(user);
             String jwtToken = jwtUtil.generateToken(userDetails);
-            LoginResponse loginResponse = new LoginResponse((long) user.getId(), user.getEmail(), jwtToken);
+            Pet pet = user.getPet();
+
+            LoginResponse loginResponse = new LoginResponse((long) user.getId(), user.getEmail(), jwtToken, pet);
+
             return ResponseEntity.ok(loginResponse);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
