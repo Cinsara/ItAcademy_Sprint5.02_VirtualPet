@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,4 +37,13 @@ public class Pet {
     @JoinColumn(name = "user_id", unique = true)
     @JsonBackReference
     private User owner;
+
+    @OneToMany
+    @JoinTable(
+            name = "pet_accessories",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name = "accessory_id")
+    )
+    private List<Accessory> accessories = new ArrayList<>();
+
 }

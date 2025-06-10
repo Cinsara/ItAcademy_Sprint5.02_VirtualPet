@@ -31,7 +31,7 @@ public class User {
     private Pet pet;
 
     @Column(nullable = false)
-    private int coins = 10;
+    private int diamonds = 10;
 
     private double trainingTime;
     private LocalDateTime registerDate;

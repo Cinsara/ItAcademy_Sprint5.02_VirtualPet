@@ -30,7 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String username;
 
         String path = request.getRequestURI();
-        List<String> excludedPaths = List.of("/api/auth/register", "/api/auth/login");
+        List<String> excludedPaths = List.of("/auth/register", "/auth/login");
         if (excludedPaths.contains(path)) {
             filterChain.doFilter(request, response);
             return;
@@ -48,6 +48,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+            System.out.println("🧪 Validando token para: " + username);
+
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -55,6 +57,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println("🔓 Authentication established correctly for: " + username);
+                System.out.println("🔐 Roles: " + userDetails.getAuthorities());
             } else {
                 System.out.println("❌ Invalid token for the user");
             }

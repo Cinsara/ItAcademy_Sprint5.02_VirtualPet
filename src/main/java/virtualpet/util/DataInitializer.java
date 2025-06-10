@@ -76,6 +76,7 @@ public class DataInitializer {
                     .happinessChange(10)
                     .price(7)
                     .description("A cute little hat")
+                    .imageUrl("/assets/shop/hat.png")
                     .build());
 
             accessoryRepository.save(Accessory.builder()
@@ -83,6 +84,7 @@ public class DataInitializer {
                     .happinessChange(15)
                     .price(10)
                     .description("A soft and cuddly teddy bear")
+                    .imageUrl("/assets/shop/bear.png")
                     .build());
 
             accessoryRepository.save(Accessory.builder()
@@ -90,6 +92,7 @@ public class DataInitializer {
                     .happinessChange(20)
                     .price(5)
                     .description("Some super cool glasses")
+                    .imageUrl("/assets/shop/glasses.png")
                     .build());
         }
     }

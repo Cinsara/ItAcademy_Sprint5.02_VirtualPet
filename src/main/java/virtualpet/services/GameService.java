@@ -25,12 +25,12 @@ public class GameService {
         Pet opponent = getRandomOpponent(challenger);
 
         GameResult result = determineBattleResult(challenger,opponent);
-        int coins = getCoinsForResult(result);
-        user.setCoins(user.getCoins() + coins);
+        int diamonds = getCoinsForResult(result);
+        user.setDiamonds(user.getDiamonds() + diamonds);
         userRepository.save(user);
 
         updatePetStats(challenger,result);
-        Game battle = createGameRecord(challenger,opponent,result,coins);
+        Game battle = createGameRecord(challenger,opponent,result,diamonds);
 
         petRepository.save(challenger);
         return GameDto.from(gameRepository.save(battle));

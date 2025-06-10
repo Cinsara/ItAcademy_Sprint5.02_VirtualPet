@@ -71,6 +71,11 @@ public class SecurityConfig {
                         .requestMatchers("/pet/**","/game/**","/user/**").permitAll() //SI DA PROBLEMAS MOVER A LA LÍNEA INDICADA
 
                         .requestMatchers(
+                                "/shop/buyFood",
+                                "/shop/buyAccessory"
+                        ).hasAnyRole("USER","ADMIN")
+
+                        .requestMatchers(
                                 "/pet/giveAccessory",
                                 "/pet/feed",
                                 "/pet/myPet",

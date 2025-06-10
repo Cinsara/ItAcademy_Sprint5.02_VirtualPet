@@ -18,6 +18,7 @@ import virtualpet.dto.requests.TrainPetRequest;
 import virtualpet.dto.response.PetResponse;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
+import virtualpet.repositories.PetRepository;
 import virtualpet.services.PetService;
 import virtualpet.services.UserService;
 
@@ -30,6 +31,7 @@ import java.util.List;
 public class PetController {
     private final PetService petService;
     private final UserService userService;
+    private final PetRepository petRepository;
 
     @PostMapping("/newPet")
     public ResponseEntity<PetResponse> createPet(@RequestBody PetRequest petRequest) {
@@ -47,10 +49,27 @@ public class PetController {
     }
 
 
-    @GetMapping("/myPet")
+   /* @GetMapping("/myPet")
     public ResponseEntity<Pet> showMyPet(@AuthenticationPrincipal UserDetails userDetails){
        Pet pet = petService.showMyPet(userDetails);
        return ResponseEntity.ok(pet);
+    } */
+
+    @GetMapping("/myPet")
+    public ResponseEntity<PetWithAccessoriesDto> showMyPet(@AuthenticationPrincipal UserDetails userDetails){
+        Pet pet = petService.showMyPet(userDetails);
+
+        List<AccessoryDto> accessories = pet.getAccessories().stream().map(acc ->
+                new AccessoryDto(acc.getId(), acc.getName(), acc.getImageUrl())
+        ).toList();
+
+        PetWithAccessoriesDto dto = new PetWithAccessoriesDto(
+                pet.getName(), pet.getType(), pet.getHappiness(), pet.getHealth(),
+                pet.getHunger(), pet.getStrength(), pet.getVictories(), pet.getDefeats(),
+                pet.getWeight(), accessories
+        );
+
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/allPets")
@@ -71,6 +90,9 @@ public class PetController {
     @PostMapping("/giveAccessory")
     public ResponseEntity<PetDto> giveAccessory(@RequestBody AccessoryRequest request,
                                                 @AuthenticationPrincipal UserDetails userDetails) {
+
+        System.out.println("🔧 ID recibido para accesorio: " + request.getAccessoryId());
+
         User user = userService.userFound(userDetails);
         Pet updatedPet = petService.giveAccessory(user,request.getAccessoryId());
 
@@ -89,6 +111,25 @@ public class PetController {
         return ResponseEntity.ok(petDto);
     }
 
+    @DeleteMapping("/removeAccessory/{accessoryId}")
+    public ResponseEntity<PetWithAccessoriesDto> removeAccessory(@AuthenticationPrincipal UserDetails userDetails,
+                                                                 @PathVariable int accessoryId) {
+        Pet pet = petService.showMyPet(userDetails);
+        pet.getAccessories().removeIf(acc -> acc.getId() == accessoryId);
+        Pet saved = petRepository.save(pet);
+
+        List<AccessoryDto> accessories = saved.getAccessories().stream().map(acc ->
+                new AccessoryDto(acc.getId(), acc.getName(), acc.getImageUrl())
+        ).toList();
+
+        PetWithAccessoriesDto dto = new PetWithAccessoriesDto(
+                saved.getName(), saved.getType(), saved.getHappiness(), saved.getHealth(),
+                saved.getHunger(), saved.getStrength(), saved.getVictories(), saved.getDefeats(),
+                saved.getWeight(), accessories
+        );
+
+        return ResponseEntity.ok(dto);
+    }
 
     @PostMapping("/trainPet")
     public ResponseEntity<Pet> trainPet(@AuthenticationPrincipal UserDetails userDetails,

@@ -26,4 +26,6 @@ public class Accessory {
     @JoinColumn(name = "app_shop_id")
     private Shop shop;
 
+    private String imageUrl;
+
 }

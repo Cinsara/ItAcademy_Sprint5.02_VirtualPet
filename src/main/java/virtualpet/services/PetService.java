@@ -68,6 +68,7 @@ public class PetService {
         Accessory accessory = accessoryRepository.findById((long) accessoryId)
                 .orElseThrow(() -> new RuntimeException("Accessory not found"));
 
+        pet.getAccessories().add(accessory);
         pet.setHappiness(Math.min(100, Math.max(0, pet.getHappiness() + accessory.getHappinessChange())));
 
         return petRepository.save(pet);
