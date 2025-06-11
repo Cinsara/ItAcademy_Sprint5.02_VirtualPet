@@ -9,25 +9,16 @@ import virtualpet.model.Game;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GameDto {
-    private Long id;
-    private String opponentName;
-    private String challengerName;
-    private String result;
+    private PetDto challenger;
+    private PetDto opponent;
+    private String gameResult;
     private int coinsAwarded;
 
     public static GameDto from(Game game) {
-        String result = switch (game.getGameResult()) {
-            case CHALLENGER_WINS -> "VICTORY";
-            case OPPONENT_WINS -> "DEFEAT";
-            case DRAW -> "DRAW";
-        };
+        PetDto challengerDto = new PetDto(game.getChallenger());
+        PetDto opponentDto = new PetDto(game.getOpponent());
+        String result = game.getGameResult().name();
 
-        return new GameDto(
-                (long) game.getId(),
-                game.getOpponent().getName(),
-                game.getChallenger().getName(),
-                result,
-                game.getCoinsAwarded()
-        );
+        return new GameDto(challengerDto, opponentDto, result, game.getCoinsAwarded());
     }
 }

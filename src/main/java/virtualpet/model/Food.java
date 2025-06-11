@@ -33,4 +33,8 @@ public class Food {
     @ManyToOne
     @JoinColumn(name = "app_shop_id")
     private Shop shop;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
 }

@@ -32,6 +32,7 @@ public class DataInitializer {
                     .weightChange(0.1)
                     .price(5)
                     .description("Fresh apple")
+                    .imageUrl("/assets/shop/apple.png")
                     .build());
 
             foodRepository.save(Food.builder()
@@ -43,6 +44,7 @@ public class DataInitializer {
                     .weightChange(0.05)
                     .price(6)
                     .description("Light green salad")
+                    .imageUrl("/assets/shop/salad.png")
                     .build());
 
             foodRepository.save(Food.builder()
@@ -54,6 +56,7 @@ public class DataInitializer {
                     .weightChange(0.5)
                     .price(12)
                     .description("Greasy burger")
+                    .imageUrl("/assets/shop/burger.png")
                     .build());
 
             foodRepository.save(Food.builder()
@@ -65,6 +68,7 @@ public class DataInitializer {
                     .weightChange(0.3)
                     .price(4)
                     .description("Sweet donut")
+                    .imageUrl("/assets/shop/donut.png")
                     .build());
         }
     }
