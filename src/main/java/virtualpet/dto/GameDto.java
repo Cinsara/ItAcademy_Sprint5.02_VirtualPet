@@ -15,10 +15,11 @@ public class GameDto {
     private int coinsAwarded;
 
     public static GameDto from(Game game) {
-        PetDto challengerDto = new PetDto(game.getChallenger());
-        PetDto opponentDto = new PetDto(game.getOpponent());
-        String result = game.getGameResult().name();
-
-        return new GameDto(challengerDto, opponentDto, result, game.getCoinsAwarded());
+        GameDto dto = new GameDto();
+        dto.setChallenger(new PetDto(game.getChallenger()));
+        dto.setOpponent(new PetDto(game.getOpponent()));
+        dto.setGameResult(String.valueOf(game.getGameResult()));
+        dto.setCoinsAwarded(game.getCoinsAwarded());
+        return dto;
     }
 }

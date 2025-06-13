@@ -22,6 +22,7 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "challenger_pet_id")
     private Pet challenger;
+
     private GameResult gameResult;
     private int coinsAwarded;
 }

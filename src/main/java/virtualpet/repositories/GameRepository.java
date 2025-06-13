@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game,Long> {
     List<Game> findByChallenger(Pet challenger);
+    void deleteByChallenger(Pet pet);
+    void deleteByOpponent(Pet pet);
+
 }

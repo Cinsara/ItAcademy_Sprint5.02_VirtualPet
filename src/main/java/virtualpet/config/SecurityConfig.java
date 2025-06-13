@@ -1,5 +1,6 @@
 package virtualpet.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,9 +89,6 @@ public class SecurityConfig {
                                 "/user/allUsers",
                                 "/game/gamesPlayed"
                         ).hasRole("ADMIN")
-
-                        // AQUÍ
-
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->

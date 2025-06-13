@@ -38,7 +38,7 @@ public class Pet {
     @JsonBackReference
     private User owner;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "pet_accessories",
             joinColumns = @JoinColumn(name = "pet_id"),

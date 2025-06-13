@@ -22,6 +22,8 @@ public class PetDto {
     private double weight;
     private List<String> equippedAccessories;
     private String type;
+    private Long ownerId;
+
 
     public PetDto(Long id, String name, int happiness, int health, int hunger, int strength,
                   int victories, int defeats, double weight) {
@@ -52,5 +54,11 @@ public class PetDto {
                         .collect(Collectors.toList())
                 : List.of();
         this.type = pet.getType();
+        this.ownerId = Long.valueOf(pet.getOwner() != null ? pet.getOwner().getId() : null);
     }
+
+    public static PetDto from(Pet pet) {
+        return new PetDto(pet);
+    }
+
 }

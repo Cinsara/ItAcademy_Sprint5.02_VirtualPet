@@ -49,4 +49,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/create-admin")
+    public ResponseEntity<?> createAdmin() {
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("admin");
+        request.setEmail("admin@email.com");
+        request.setPassword("admin123");
+        request.setWeight(70);
+
+        User newAdmin = userService.registerAdmin(request);
+        return ResponseEntity.ok("✅ Admin creado: " + newAdmin.getUsername());
+    }
+
 }

@@ -15,7 +15,6 @@ import virtualpet.model.Food;
 import virtualpet.model.User;
 import virtualpet.repositories.AccessoryRepository;
 import virtualpet.repositories.FoodRepository;
-import virtualpet.services.PetService;
 import virtualpet.services.ShopService;
 import virtualpet.services.UserService;
 

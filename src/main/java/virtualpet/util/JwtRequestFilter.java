@@ -30,7 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String username;
 
         String path = request.getRequestURI();
-        List<String> excludedPaths = List.of("/auth/register", "/auth/login");
+        List<String> excludedPaths = List.of("/auth/register", "/auth/login","/auth/create-admin");
         if (excludedPaths.contains(path)) {
             filterChain.doFilter(request, response);
             return;

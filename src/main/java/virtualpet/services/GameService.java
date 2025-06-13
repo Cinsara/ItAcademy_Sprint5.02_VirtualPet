@@ -30,9 +30,12 @@ public class GameService {
         userRepository.save(user);
 
         updatePetStats(challenger,result);
-        Game battle = createGameRecord(challenger,opponent,result,diamonds);
-
         petRepository.save(challenger);
+
+        challenger = petRepository.findById((long) challenger.getId())
+                .orElseThrow(() -> new RuntimeException("Challenger not found"));
+
+        Game battle = createGameRecord(challenger,opponent,result,diamonds);
         return GameDto.from(gameRepository.save(battle));
     }
 
@@ -65,8 +68,24 @@ public class GameService {
 
     private void updatePetStats(Pet pet, GameResult result) {
         switch (result) {
-            case CHALLENGER_WINS -> pet.setVictories(pet.getVictories() + 1);
-            case OPPONENT_WINS -> pet.setDefeats(pet.getDefeats() + 1);
+            case CHALLENGER_WINS -> {
+                pet.setVictories(pet.getVictories() + 1);
+                pet.setHappiness(Math.min(pet.getHappiness() + 10, 100));
+                pet.setHealth(Math.min(pet.getHealth() + 5, 100));
+                pet.setHunger(Math.min(pet.getHunger() + 8, 100));
+            }
+
+            case OPPONENT_WINS -> {
+                pet.setDefeats(pet.getDefeats() + 1);
+                pet.setHappiness(Math.max(pet.getHappiness() - 5, 0));
+                pet.setHealth(Math.max(pet.getHealth() - 5, 0));
+                pet.setHunger(Math.min(pet.getHunger() + 5, 100));
+            }
+
+            case DRAW -> {
+                pet.setHappiness(Math.min(pet.getHappiness() + 2, 100));
+                pet.setHunger(Math.min(pet.getHunger() + 5, 100));
+            }
         }
     }
 
@@ -80,7 +99,6 @@ public class GameService {
     }
 
     private int calculateScore(Pet pet) {
-        int random = new Random().nextInt(21) - 10;
-        return pet.getStrength() * 2 + pet.getHealth() + pet.getHappiness() - pet.getHunger() + random;
+        return pet.getStrength() * 2 + pet.getHealth() + pet.getHappiness() - pet.getHunger();
     }
 }

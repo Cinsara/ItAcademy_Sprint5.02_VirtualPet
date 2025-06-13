@@ -84,7 +84,7 @@ public class DataInitializer {
                     .build());
 
             accessoryRepository.save(Accessory.builder()
-                    .name("Teddy Bear")
+                    .name("teddy_bear")
                     .happinessChange(15)
                     .price(10)
                     .description("A soft and cuddly teddy bear")

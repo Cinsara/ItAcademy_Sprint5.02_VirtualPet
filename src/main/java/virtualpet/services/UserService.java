@@ -64,22 +64,37 @@ public class UserService {
 
     public User validateUser(LoginRequest request) {
 
-        System.out.println("🔐 Intentando login con: " + request.getEmail());
+        System.out.println("🔍 Email recibido: " + request.getEmail());
+        System.out.println("🔍 Password recibido: " + request.getPassword());
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        System.out.println("✅ Usuario encontrado, comprobando contraseña");
+        System.out.println("✅ Usuario encontrado: " + user.getUsername());
+        System.out.println("🔒 Password en BBDD: " + user.getPassword());
+        System.out.println("🔍 Coincide? " + passwordEncoder.matches(request.getPassword(), user.getPassword()));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-
-            System.out.println("❌ Contraseña incorrecta");
-
             throw new BadCredentialsException("Incorrect password");
         }
-
-        System.out.println("🔓 Contraseña válida");
-
         return user;
     }
+
+    public User registerAdmin(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Ya existe un usuario con ese email.");
+        }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setWeight(request.getWeight());
+        user.setRol(UserRol.ADMIN);
+        user.setDiamonds(100);
+        user.setTrainingTime(0.0);
+
+        return userRepository.save(user);
+    }
+
 }

@@ -48,13 +48,6 @@ public class PetController {
                 .body(new PetResponse(savedPet.getType(), savedPet.getName()));
     }
 
-
-   /* @GetMapping("/myPet")
-    public ResponseEntity<Pet> showMyPet(@AuthenticationPrincipal UserDetails userDetails){
-       Pet pet = petService.showMyPet(userDetails);
-       return ResponseEntity.ok(pet);
-    } */
-
     @GetMapping("/myPet")
     public ResponseEntity<PetWithAccessoriesDto> showMyPet(@AuthenticationPrincipal UserDetails userDetails){
         Pet pet = petService.showMyPet(userDetails);
