@@ -78,7 +78,7 @@ public class PetService {
         Pet pet = petRepository.findByOwner(user)
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
-        int minutes = durationInSeconds / 60;
+        int minutes = durationInSeconds / 10;
 
         pet.setStrength(pet.getStrength() + minutes);
         pet.setHappiness(Math.max(0, pet.getHappiness() - minutes));

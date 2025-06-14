@@ -59,79 +59,82 @@ public class SecurityIntegrationTest {
         }
     }
 
-    String obtainToken(String username, String password) throws Exception {
-        String requestBody = String.format("{\"username\":\"%s\",\"password\":\"%s\"}",
-                username, password);
+    String obtainToken(String email, String password) throws Exception {
+        String requestBody = String.format("{\"email\":\"%s\",\"password\":\"%s\"}", email, password);
 
-        String responseContent = mockMvc.perform(post("/api/auth/login")
+        String responseContent = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+
+        System.out.println("🪪 Login response: " + responseContent);
+
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readTree(responseContent).get("token").asText();
+        return mapper.readTree(responseContent).get("token").asText(); // Asegúrate de que LoginResponse usa "token"
     }
 
     @Test
     void userToken_canAccessUserRoute() throws Exception {
-        String token = obtainToken("testUser", "testUser_password");
+        String token = obtainToken("testUser@example.com", "testUser_password");
 
-        System.out.println("Token obtain");
-
-        mockMvc.perform(get("/api/user/data")
+        mockMvc.perform(get("/user/diamonds")
                         .header("Authorization", "Bearer " + token))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     void userToken_cannotAccessAdminRoute() throws Exception {
-        String token = obtainToken("testUser", "testUser_password");
+        String token = obtainToken("testUser@example.com", "testUser_password");
 
-        System.out.println("Token obtain");
-
-        mockMvc.perform(get("/api/admin/data")
-                        .with(user("testUser").roles("USER")))
+        mockMvc.perform(get("/admin/users")
+                        .header("Authorization", "Bearer " + token))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void adminToken_canAccessAdminRoute() throws Exception {
-        String token = obtainToken("testAdmin", "testAdmin_password");
+        String token = obtainToken("testAdmin@example.com", "testAdmin_password");
 
-        mockMvc.perform(get("/api/admin/data")
+        mockMvc.perform(get("/admin/users")
                         .header("Authorization", "Bearer " + token))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     void requestWithoutToken_isUnauthorized() throws Exception {
         mockMvc.perform(get("/api/user/data"))
+                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void adminLoginTest() throws Exception {
-        String requestBody = "{\"username\":\"testAdmin\",\"password\":\"testAdmin_password\"}";
+        String requestBody = "{\"email\":\"testAdmin@example.com\",\"password\":\"testAdmin_password\"}";
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").exists());
     }
 
     @Test
     void userLoginTest() throws Exception {
-        String requestBody = "{\"username\":\"testUser\",\"password\":\"testUser_password\"}";
+        String requestBody = "{\"email\":\"testUser@example.com\",\"password\":\"testUser_password\"}";
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").exists());
     }
-
 }

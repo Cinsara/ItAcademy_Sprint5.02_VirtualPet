@@ -3,7 +3,6 @@ package virtualpet.services;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import virtualpet.model.Game;
 import virtualpet.model.User;
 import virtualpet.model.Pet;
 import virtualpet.model.UserRol;

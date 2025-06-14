@@ -25,7 +25,7 @@ CREATE TABLE app_shop(
 CREATE TABLE app_pet(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    type VARCHAR(255) NOT NULL;
+    type VARCHAR(255) NOT NULL,
     weight DOUBLE,
     strength INT DEFAULT 10,
     happiness INT DEFAULT 50,
@@ -48,7 +48,7 @@ CREATE TABLE app_food(
     weightChange DOUBLE NOT NULL DEFAULT 0,
     price INT NOT NULL DEFAULT 0,
     description VARCHAR(500) NOT NULL,
-    food_type ENUM('JUNK', 'HEALTHY') NOT NULL,
+    food_type VARCHAR(20) NOT NULL,
     app_shop_id INT,
     CONSTRAINT fk_food_app_shop FOREIGN KEY (app_shop_id) REFERENCES app_shop(id)
 );

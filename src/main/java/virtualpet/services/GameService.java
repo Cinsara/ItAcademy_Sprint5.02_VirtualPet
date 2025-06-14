@@ -99,6 +99,10 @@ public class GameService {
     }
 
     private int calculateScore(Pet pet) {
-        return pet.getStrength() * 2 + pet.getHealth() + pet.getHappiness() - pet.getHunger();
+        int score = pet.getStrength() * 2 + pet.getHealth() + pet.getHappiness() - pet.getHunger();
+        int scoreRandom = (int)(Math.random() * score) + 1;
+        System.out.println("Pet name: " + pet.getName() + " | Score: " + score + " | Score Random: " + scoreRandom);
+
+        return scoreRandom;
     }
 }
