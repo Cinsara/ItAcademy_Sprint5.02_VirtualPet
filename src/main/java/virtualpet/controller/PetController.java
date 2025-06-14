@@ -20,6 +20,7 @@ import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.repositories.PetRepository;
 import virtualpet.services.PetService;
+import virtualpet.services.TrainService;
 import virtualpet.services.UserService;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class PetController {
     private final PetService petService;
     private final UserService userService;
     private final PetRepository petRepository;
+    private final TrainService trainService;
 
     @PostMapping("/newPet")
     public ResponseEntity<PetResponse> createPet(@RequestBody PetRequest petRequest) {
@@ -126,9 +128,9 @@ public class PetController {
 
     @PostMapping("/trainPet")
     public ResponseEntity<Pet> trainPet(@AuthenticationPrincipal UserDetails userDetails,
-                                        @RequestBody TrainPetRequest request){
+                                        @RequestBody TrainPetRequest request) {
         User user = userService.userFound(userDetails);
-        Pet updatedPet = petService.trainPet(user, request.getDurationInSeconds());
+        Pet updatedPet = trainService.train(user, request.getType(), request.getDurationInSeconds());
         return ResponseEntity.ok(updatedPet);
     }
 

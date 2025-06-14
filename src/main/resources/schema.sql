@@ -11,6 +11,7 @@ CREATE TABLE app_user(
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     weight DOUBLE,
+    body_type VARCHAR(20),
     rol VARCHAR(50),
     diamonds INT DEFAULT 10,
     training_time DOUBLE,

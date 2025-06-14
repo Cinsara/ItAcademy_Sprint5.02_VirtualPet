@@ -24,6 +24,9 @@ public class User {
     private double weight;
 
     @Enumerated(EnumType.STRING)
+    private BodyType bodyType;
+
+    @Enumerated(EnumType.STRING)
     private UserRol rol;
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)

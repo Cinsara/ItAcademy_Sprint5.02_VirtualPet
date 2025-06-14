@@ -1,10 +1,8 @@
 package virtualpet.dto.requests;
 
-import lombok.Data;
 import virtualpet.model.TrainingType;
 
-@Data
-public class TrainPetRequest {
+public class TrainingRequest {
     private TrainingType type;
     private int durationInSeconds;
 }
