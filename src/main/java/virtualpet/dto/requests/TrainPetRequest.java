@@ -1,7 +1,7 @@
 package virtualpet.dto.requests;
 
 import lombok.Data;
-import virtualpet.model.TrainingType;
+import virtualpet.model.enums.TrainingType;
 
 @Data
 public class TrainPetRequest {

@@ -3,7 +3,7 @@ package virtualpet.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import virtualpet.model.Pet;
-import virtualpet.model.TrainingType;
+import virtualpet.model.enums.TrainingType;
 import virtualpet.model.User;
 import virtualpet.repositories.PetRepository;
 

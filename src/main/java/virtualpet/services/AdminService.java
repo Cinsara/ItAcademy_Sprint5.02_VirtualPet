@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import virtualpet.model.User;
 import virtualpet.model.Pet;
-import virtualpet.model.UserRol;
+import virtualpet.model.enums.UserRol;
 import virtualpet.repositories.GameRepository;
 import virtualpet.repositories.UserRepository;
 import virtualpet.repositories.PetRepository;

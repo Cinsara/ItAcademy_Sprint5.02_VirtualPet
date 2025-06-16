@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import virtualpet.model.enums.BodyType;
+import virtualpet.model.enums.UserRol;
 
 import java.time.LocalDateTime;
 

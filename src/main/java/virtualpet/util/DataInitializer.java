@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import virtualpet.model.Accessory;
 import virtualpet.model.Food;
-import virtualpet.model.FoodType;
+import virtualpet.model.enums.FoodType;
 import virtualpet.repositories.AccessoryRepository;
 import virtualpet.repositories.FoodRepository;
 

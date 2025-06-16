@@ -1,4 +1,4 @@
-package virtualpet.model;
+package virtualpet.model.enums;
 
 public enum UserRol {
     ADMIN, USER

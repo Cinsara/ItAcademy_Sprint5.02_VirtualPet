@@ -11,7 +11,7 @@ import virtualpet.dto.response.LoginResponse;
 import virtualpet.dto.requests.RegisterRequest;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
-import virtualpet.model.UserRol;
+import virtualpet.model.enums.UserRol;
 import virtualpet.repositories.UserRepository;
 
 import java.util.List;
@@ -38,6 +38,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRol(UserRol.USER);
         user.setWeight(request.getWeight());
+        user.setBodyType(request.getBodyType());
 
         return userRepository.save(user);
     }
@@ -63,16 +64,8 @@ public class UserService {
     }
 
     public User validateUser(LoginRequest request) {
-
-        System.out.println("🔍 Email recibido: " + request.getEmail());
-        System.out.println("🔍 Password recibido: " + request.getPassword());
-
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        System.out.println("✅ Usuario encontrado: " + user.getUsername());
-        System.out.println("🔒 Password en BBDD: " + user.getPassword());
-        System.out.println("🔍 Coincide? " + passwordEncoder.matches(request.getPassword(), user.getPassword()));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
@@ -82,7 +75,7 @@ public class UserService {
 
     public User registerAdmin(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Ya existe un usuario con ese email.");
+            throw new RuntimeException("There is already a user with that email.");
         }
 
         User user = new User();
@@ -93,6 +86,7 @@ public class UserService {
         user.setRol(UserRol.ADMIN);
         user.setDiamonds(100);
         user.setTrainingTime(0.0);
+        user.setBodyType(request.getBodyType());
 
         return userRepository.save(user);
     }

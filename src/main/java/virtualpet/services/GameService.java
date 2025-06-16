@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import virtualpet.dto.GameDto;
 import virtualpet.model.Game;
-import virtualpet.model.GameResult;
+import virtualpet.model.enums.GameResult;
 import virtualpet.model.Pet;
 import virtualpet.model.User;
 import virtualpet.repositories.GameRepository;
 import virtualpet.repositories.PetRepository;
 import virtualpet.repositories.UserRepository;
-
-import java.util.Random;
 
 @Service
 @AllArgsConstructor

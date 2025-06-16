@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import virtualpet.model.User;
-import virtualpet.model.UserRol;
+import virtualpet.model.enums.UserRol;
 import virtualpet.repositories.UserRepository;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;

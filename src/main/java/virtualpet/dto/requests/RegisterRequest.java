@@ -1,8 +1,7 @@
 package virtualpet.dto.requests;
 
 import lombok.Data;
-import virtualpet.model.BodyType;
-import virtualpet.model.UserRol;
+import virtualpet.model.enums.BodyType;
 
 @Data
 public class RegisterRequest {

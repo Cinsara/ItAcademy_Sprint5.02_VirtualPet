@@ -1,13 +1,11 @@
 package virtualpet.config;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -69,7 +67,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        .requestMatchers("/pet/**","/game/**","/user/**").permitAll() //SI DA PROBLEMAS MOVER A LA LÍNEA INDICADA
+                        //.requestMatchers("/pet/**","/game/**","/user/**").permitAll()
 
                         .requestMatchers(
                                 "/shop/buyFood",
@@ -77,12 +75,15 @@ public class SecurityConfig {
                         ).hasAnyRole("USER","ADMIN")
 
                         .requestMatchers(
+                                "/pet/trainPet",
                                 "/pet/giveAccessory",
                                 "/pet/feed",
                                 "/pet/myPet",
                                 "/pet/deletePet"
                         ).hasAnyRole("USER", "ADMIN")
 
+                        .requestMatchers("/user/diamonds").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/game/newGame").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/pet/allPets",
                                 "/admin/**",
                                 "/data",

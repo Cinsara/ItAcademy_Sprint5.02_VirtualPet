@@ -1,6 +1,6 @@
 package virtualpet.dto.requests;
 
-import virtualpet.model.TrainingType;
+import virtualpet.model.enums.TrainingType;
 
 public class TrainingRequest {
     private TrainingType type;
