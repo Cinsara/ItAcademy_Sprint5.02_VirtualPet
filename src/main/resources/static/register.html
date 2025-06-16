@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro JWT</title>
+</head>
+<body>
+<h2>Registro de usuario</h2>
+<form id="registerForm">
+    <label>Usuario: <input type="text" name="username" required></label><br>
+    <label>Email: <input type="text" name="email" required></label><br>
+    <label>Contraseña: <input type="password" name="password" required></label><br>
+    <button type="submit">Registrarse</button>
+</form>
+<p id="response"></p>
+
+<script>
+    const form = document.getElementById("registerForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = {
+            username: formData.get("username"),
+            email: formData.get("email"),
+            password: formData.get("password")
+        };
+
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.text();
+        document.getElementById("response").innerText = result;
+    });
+</script>
+</body>
+</html>

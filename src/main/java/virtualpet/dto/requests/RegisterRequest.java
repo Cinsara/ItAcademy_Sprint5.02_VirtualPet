@@ -1,0 +1,13 @@
+package virtualpet.dto.requests;
+
+import lombok.Data;
+import virtualpet.model.enums.BodyType;
+
+@Data
+public class RegisterRequest {
+    private String username;
+    private String email;
+    private String password;
+    private double weight;
+    private BodyType bodyType;
+}
